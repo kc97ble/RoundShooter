@@ -2,4 +2,6 @@ contestants/
 lib/
 backup/
 RoundShooter
-
+RoundShooter.exe
+*.bak
+*.zip

@@ -107,10 +107,12 @@ end;
 
 constructor TPlayerProcess.Create;
 begin
+  inherited Create(nil);
   InputThread := nil;
   OutputThread := nil;
   StderrThread := nil;
-  inherited Create(nil);
+
+  Options := [poUsePipes, poNoConsole];
 end;
 
 destructor TPlayerProcess.Destroy;
@@ -127,7 +129,6 @@ procedure TMainForm.Process1Btn1Click(Sender: TObject);
 begin
   if Process1.Running then exit;
   Process1.Executable := Process1Edit.Text;
-  Process1.Options := [poUsePipes];
   Process1.Execute;
 end;
 
@@ -141,7 +142,6 @@ procedure TMainForm.Process2Btn1Click(Sender: TObject);
 begin
   if Process2.Running then exit;
   Process2.Executable := Process2Edit.Text;
-  Process2.Options := [poUsePipes];
   Process2.Execute;
 end;
 
@@ -162,19 +162,21 @@ end;
 
 procedure TMainForm.DoBeforePlaying;
 begin
+  Game.State := 0;
   if not Process1.Running and (Process1Edit.Text<>'') then
     Process1Btn1.Click;
   if not Process2.Running and (Process2Edit.Text<>'') then
     Process2Btn1.Click;
 
   Game.Init;
-  Game.State := 2;
 
   ListBox1.Clear;
   ListBox2.Clear;
 
   FileName1View.Caption := ExtractFileName(Process1Edit.Text);
   FileName2View.Caption := ExtractFileName(Process2Edit.Text);
+
+  Game.State := 2;
 end;
 
 procedure TMainForm.DoPlaying;
@@ -205,6 +207,7 @@ end;
 
 procedure TMainForm.DoAfterPlaying;
 begin
+  Game.State := 0;
   if Process1.Running then
     Process1Btn2.Click;
   if Process2.Running then
@@ -214,7 +217,6 @@ begin
     1: ShowMessage('Player 1 wins');
     2: ShowMessage('Player 2 wins');
   end;
-  Game.State := 0;
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);

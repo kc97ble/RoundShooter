@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 370
+  Left = 586
   Height = 480
-  Top = 190
+  Top = 200
   Width = 640
   Caption = 'Shooter2017'
   ChildSizing.TopBottomSpacing = 5
@@ -11,7 +11,7 @@ object MainForm: TMainForm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '1.6.4.0'
+  LCLVersion = '1.6.0.4'
   object PageControl1: TPageControl
     Left = 0
     Height = 470
@@ -25,33 +25,33 @@ object MainForm: TMainForm
       Caption = 'Processes'
       ChildSizing.TopBottomSpacing = 5
       ChildSizing.VerticalSpacing = 5
-      ClientHeight = 439
-      ClientWidth = 630
+      ClientHeight = 432
+      ClientWidth = 632
       object Process1Gbox: TGroupBox
         Left = 0
-        Height = 62
+        Height = 75
         Top = 5
-        Width = 630
+        Width = 632
         Align = alTop
         AutoSize = True
         Caption = 'Process 1'
         ChildSizing.TopBottomSpacing = 5
-        ClientHeight = 44
+        ClientHeight = 45
         ClientWidth = 628
         TabOrder = 0
         object Process1Edit: TEdit
           Left = 0
-          Height = 34
+          Height = 35
           Top = 5
-          Width = 396
+          Width = 339
           Align = alClient
           TabOrder = 0
         end
         object Process1Btn1: TButton
-          Left = 396
-          Height = 34
+          Left = 339
+          Height = 35
           Top = 5
-          Width = 117
+          Width = 144
           Align = alRight
           AutoSize = True
           Caption = 'Start process 1'
@@ -59,10 +59,10 @@ object MainForm: TMainForm
           TabOrder = 1
         end
         object Process1Btn2: TButton
-          Left = 513
-          Height = 34
+          Left = 483
+          Height = 35
           Top = 5
-          Width = 115
+          Width = 145
           Align = alRight
           AutoSize = True
           Caption = 'Stop process 1'
@@ -72,29 +72,29 @@ object MainForm: TMainForm
       end
       object Process2Gbox: TGroupBox
         Left = 0
-        Height = 62
-        Top = 72
-        Width = 630
+        Height = 75
+        Top = 85
+        Width = 632
         Align = alTop
         AutoSize = True
         Caption = 'Process 2'
         ChildSizing.TopBottomSpacing = 5
-        ClientHeight = 44
+        ClientHeight = 45
         ClientWidth = 628
         TabOrder = 1
         object Process2Edit: TEdit
           Left = 0
-          Height = 34
+          Height = 35
           Top = 5
-          Width = 396
+          Width = 339
           Align = alClient
           TabOrder = 0
         end
         object Process2Btn1: TButton
-          Left = 396
-          Height = 34
+          Left = 339
+          Height = 35
           Top = 5
-          Width = 117
+          Width = 144
           Align = alRight
           AutoSize = True
           Caption = 'Start process 2'
@@ -102,10 +102,10 @@ object MainForm: TMainForm
           TabOrder = 1
         end
         object Process2Btn2: TButton
-          Left = 513
-          Height = 34
+          Left = 483
+          Height = 35
           Top = 5
-          Width = 115
+          Width = 145
           Align = alRight
           AutoSize = True
           Caption = 'Stop process 2'
@@ -115,19 +115,19 @@ object MainForm: TMainForm
       end
       object GameGbox: TGroupBox
         Left = 0
-        Height = 94
-        Top = 139
-        Width = 630
+        Height = 110
+        Top = 165
+        Width = 632
         Align = alTop
         AutoSize = True
         Caption = 'Game'
         ChildSizing.TopBottomSpacing = 5
-        ClientHeight = 76
+        ClientHeight = 80
         ClientWidth = 628
         TabOrder = 2
         object Button3: TButton
           Left = 0
-          Height = 33
+          Height = 35
           Top = 5
           Width = 628
           Align = alTop
@@ -138,8 +138,8 @@ object MainForm: TMainForm
         end
         object Button4: TButton
           Left = 0
-          Height = 33
-          Top = 38
+          Height = 35
+          Top = 40
           Width = 628
           Align = alTop
           AutoSize = True
@@ -295,6 +295,7 @@ object MainForm: TMainForm
         Align = alClient
         Position = 312
         object PairSplitterSide1: TPairSplitterSide
+          Cursor = crArrow
           Left = 0
           Height = 429
           Top = 0
@@ -312,7 +313,6 @@ object MainForm: TMainForm
             ItemHeight = 0
             ScrollWidth = 310
             TabOrder = 0
-            TopIndex = -1
           end
         end
         object PairSplitterSide2: TPairSplitterSide
@@ -334,7 +334,6 @@ object MainForm: TMainForm
             ItemHeight = 0
             ScrollWidth = 311
             TabOrder = 0
-            TopIndex = -1
           end
         end
       end
