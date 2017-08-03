@@ -1,0 +1,349 @@
+object MainForm: TMainForm
+  Left = 370
+  Height = 480
+  Top = 190
+  Width = 640
+  Caption = 'Shooter2017'
+  ChildSizing.TopBottomSpacing = 5
+  ChildSizing.VerticalSpacing = 5
+  ClientHeight = 480
+  ClientWidth = 640
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Position = poScreenCenter
+  LCLVersion = '1.6.4.0'
+  object PageControl1: TPageControl
+    Left = 0
+    Height = 470
+    Top = 5
+    Width = 640
+    ActivePage = TabSheet1
+    Align = alClient
+    TabIndex = 0
+    TabOrder = 0
+    object TabSheet1: TTabSheet
+      Caption = 'Processes'
+      ChildSizing.TopBottomSpacing = 5
+      ChildSizing.VerticalSpacing = 5
+      ClientHeight = 439
+      ClientWidth = 630
+      object Process1Gbox: TGroupBox
+        Left = 0
+        Height = 62
+        Top = 5
+        Width = 630
+        Align = alTop
+        AutoSize = True
+        Caption = 'Process 1'
+        ChildSizing.TopBottomSpacing = 5
+        ClientHeight = 44
+        ClientWidth = 628
+        TabOrder = 0
+        object Process1Edit: TEdit
+          Left = 0
+          Height = 34
+          Top = 5
+          Width = 396
+          Align = alClient
+          TabOrder = 0
+        end
+        object Process1Btn1: TButton
+          Left = 396
+          Height = 34
+          Top = 5
+          Width = 117
+          Align = alRight
+          AutoSize = True
+          Caption = 'Start process 1'
+          OnClick = Process1Btn1Click
+          TabOrder = 1
+        end
+        object Process1Btn2: TButton
+          Left = 513
+          Height = 34
+          Top = 5
+          Width = 115
+          Align = alRight
+          AutoSize = True
+          Caption = 'Stop process 1'
+          OnClick = Process1Btn2Click
+          TabOrder = 2
+        end
+      end
+      object Process2Gbox: TGroupBox
+        Left = 0
+        Height = 62
+        Top = 72
+        Width = 630
+        Align = alTop
+        AutoSize = True
+        Caption = 'Process 2'
+        ChildSizing.TopBottomSpacing = 5
+        ClientHeight = 44
+        ClientWidth = 628
+        TabOrder = 1
+        object Process2Edit: TEdit
+          Left = 0
+          Height = 34
+          Top = 5
+          Width = 396
+          Align = alClient
+          TabOrder = 0
+        end
+        object Process2Btn1: TButton
+          Left = 396
+          Height = 34
+          Top = 5
+          Width = 117
+          Align = alRight
+          AutoSize = True
+          Caption = 'Start process 2'
+          OnClick = Process2Btn1Click
+          TabOrder = 1
+        end
+        object Process2Btn2: TButton
+          Left = 513
+          Height = 34
+          Top = 5
+          Width = 115
+          Align = alRight
+          AutoSize = True
+          Caption = 'Stop process 2'
+          OnClick = Process2Btn2Click
+          TabOrder = 2
+        end
+      end
+      object GameGbox: TGroupBox
+        Left = 0
+        Height = 94
+        Top = 139
+        Width = 630
+        Align = alTop
+        AutoSize = True
+        Caption = 'Game'
+        ChildSizing.TopBottomSpacing = 5
+        ClientHeight = 76
+        ClientWidth = 628
+        TabOrder = 2
+        object Button3: TButton
+          Left = 0
+          Height = 33
+          Top = 5
+          Width = 628
+          Align = alTop
+          AutoSize = True
+          Caption = 'Start game'
+          OnClick = Button3Click
+          TabOrder = 0
+        end
+        object Button4: TButton
+          Left = 0
+          Height = 33
+          Top = 38
+          Width = 628
+          Align = alTop
+          AutoSize = True
+          Caption = 'Stop game'
+          OnClick = Button4Click
+          TabOrder = 1
+        end
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = 'Canvas'
+      ChildSizing.TopBottomSpacing = 5
+      ChildSizing.VerticalSpacing = 5
+      ClientHeight = 439
+      ClientWidth = 630
+      object PaintBox1: TPaintBox
+        Left = 192
+        Height = 429
+        Top = 5
+        Width = 438
+        Align = alClient
+        OnPaint = PaintBox1Paint
+      end
+      object Panel1: TPanel
+        Left = 0
+        Height = 429
+        Top = 5
+        Width = 187
+        Align = alLeft
+        BevelOuter = bvNone
+        ChildSizing.TopBottomSpacing = 5
+        ChildSizing.VerticalSpacing = 5
+        ClientHeight = 429
+        ClientWidth = 187
+        TabOrder = 0
+        object Label1: TLabel
+          Left = 0
+          Height = 17
+          Top = 5
+          Width = 187
+          Align = alTop
+          Caption = 'Player 1'
+          ParentColor = False
+        end
+        object StaticText1: TStaticText
+          Left = 0
+          Height = 19
+          Top = 27
+          Width = 187
+          Align = alTop
+          AutoSize = True
+          ParentFont = False
+          TabOrder = 0
+        end
+        object Label2: TLabel
+          Left = 0
+          Height = 17
+          Top = 51
+          Width = 187
+          Align = alTop
+          Caption = 'Player 2'
+          ParentColor = False
+        end
+        object StaticText2: TStaticText
+          Left = 0
+          Height = 19
+          Top = 73
+          Width = 187
+          Align = alTop
+          AutoSize = True
+          ParentFont = False
+          TabOrder = 1
+        end
+      end
+      object Splitter1: TSplitter
+        Left = 187
+        Height = 429
+        Top = 5
+        Width = 5
+      end
+      object FileName1View: TLabel
+        AnchorSideLeft.Control = PaintBox1
+        AnchorSideTop.Control = PaintBox1
+        Left = 192
+        Height = 15
+        Top = 5
+        Width = 56
+        Caption = 'Player1'
+        Font.Color = clPurple
+        Font.Name = 'Courier New'
+        ParentColor = False
+        ParentFont = False
+      end
+      object FileName2View: TLabel
+        AnchorSideTop.Control = PaintBox1
+        AnchorSideRight.Control = PaintBox1
+        AnchorSideRight.Side = asrBottom
+        Left = 574
+        Height = 15
+        Top = 5
+        Width = 56
+        Anchors = [akTop, akRight]
+        Caption = 'Player2'
+        Font.Color = clTeal
+        Font.Name = 'Courier New'
+        ParentColor = False
+        ParentFont = False
+      end
+      object HP1View: TLabel
+        AnchorSideLeft.Control = PaintBox1
+        AnchorSideTop.Control = FileName1View
+        AnchorSideTop.Side = asrBottom
+        Left = 192
+        Height = 45
+        Top = 25
+        Width = 24
+        Caption = '0'
+        Font.Color = clPurple
+        Font.Height = -40
+        Font.Name = 'Courier New'
+        ParentColor = False
+        ParentFont = False
+      end
+      object HP2View: TLabel
+        AnchorSideTop.Control = FileName2View
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = PaintBox1
+        AnchorSideRight.Side = asrBottom
+        Left = 606
+        Height = 45
+        Top = 25
+        Width = 24
+        Anchors = [akTop, akRight]
+        Caption = '0'
+        Font.Color = clTeal
+        Font.Height = -40
+        Font.Name = 'Courier New'
+        ParentColor = False
+        ParentFont = False
+      end
+    end
+    object TabSheet3: TTabSheet
+      Caption = 'Stderr'
+      ChildSizing.TopBottomSpacing = 5
+      ChildSizing.VerticalSpacing = 5
+      ClientHeight = 439
+      ClientWidth = 630
+      object PairSplitter1: TPairSplitter
+        Left = 0
+        Height = 429
+        Top = 5
+        Width = 630
+        Align = alClient
+        Position = 312
+        object PairSplitterSide1: TPairSplitterSide
+          Left = 0
+          Height = 429
+          Top = 0
+          Width = 312
+          ChildSizing.TopBottomSpacing = 5
+          ChildSizing.VerticalSpacing = 5
+          ClientWidth = 312
+          ClientHeight = 429
+          object ListBox1: TListBox
+            Left = 0
+            Height = 419
+            Top = 5
+            Width = 312
+            Align = alClient
+            ItemHeight = 0
+            ScrollWidth = 310
+            TabOrder = 0
+            TopIndex = -1
+          end
+        end
+        object PairSplitterSide2: TPairSplitterSide
+          Cursor = crArrow
+          Left = 317
+          Height = 429
+          Top = 0
+          Width = 313
+          ChildSizing.TopBottomSpacing = 5
+          ChildSizing.VerticalSpacing = 5
+          ClientWidth = 313
+          ClientHeight = 429
+          object ListBox2: TListBox
+            Left = 0
+            Height = 419
+            Top = 5
+            Width = 313
+            Align = alClient
+            ItemHeight = 0
+            ScrollWidth = 311
+            TabOrder = 0
+            TopIndex = -1
+          end
+        end
+      end
+    end
+  end
+  object Timer1: TTimer
+    Interval = 100
+    OnTimer = Timer1Timer
+    left = 472
+    top = 392
+  end
+end
