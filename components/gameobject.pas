@@ -20,10 +20,12 @@ type
   public
     OX, OY, R: Double;
     VX, VY: Double;
+    T: Integer;
+    procedure NextFrame;
     property O: TGamePoint read GetO write SetO;
     property V: TGamePoint read GetV write SetV;
-    constructor Create(AOX, AOY, AVX, AVY, AR: Double);
-    constructor Create(AO, AV: TGamePoint; AR: Double);
+    constructor Create(AOX, AOY, AVX, AVY, AR: Double; AT: Integer = MaxInt);
+    constructor Create(AO, AV: TGamePoint; AR: Double; AT: Integer = MaxInt);
   end;
 
 implementation
@@ -54,18 +56,27 @@ begin
   VY := AValue.Y;
 end;
 
-constructor TGameObject.Create(AOX, AOY, AVX, AVY, AR: Double);
+procedure TGameObject.NextFrame;
+begin
+  OX += VX;
+  OY += VY;
+  T -= 1;
+end;
+
+constructor TGameObject.Create(AOX, AOY, AVX, AVY, AR: Double; AT: Integer);
 begin
   OX := AOX; OY := AOY;
   VX := AVX; VY := AVY;
   R := AR;
+  T := AT;
 end;
 
-constructor TGameObject.Create(AO, AV: TGamePoint; AR: Double);
+constructor TGameObject.Create(AO, AV: TGamePoint; AR: Double; AT: Integer);
 begin
   O := AO;
   V := AV;
   R := AR;
+  T := AT;
 end;
 
 end.

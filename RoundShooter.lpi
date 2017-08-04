@@ -107,7 +107,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="9">
+    <Units Count="10">
       <Unit0>
         <Filename Value="RoundShooter.pas"/>
         <IsPartOfProject Value="True"/>
@@ -135,6 +135,7 @@
       <Unit5>
         <Filename Value="components/gameobject.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="GameObject"/>
       </Unit5>
       <Unit6>
         <Filename Value="components/gamecanvas.pas"/>
@@ -149,6 +150,10 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Games"/>
       </Unit8>
+      <Unit9>
+        <Filename Value="components/players.inc"/>
+        <IsPartOfProject Value="True"/>
+      </Unit9>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

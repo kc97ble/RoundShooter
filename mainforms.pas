@@ -7,7 +7,8 @@ interface
 uses
   Classes, SysUtils, process, FileUtil, Forms, Controls, Graphics, Dialogs,
   ComCtrls, StdCtrls, ExtCtrls, DbCtrls, PairSplitter, Pipes, ThreadQueue,
-  PlayerInputThread, PlayerOutputThread, GameObject, GameCanvas, Games;
+  PlayerInputThread, PlayerOutputThread, GameObject, GameCanvas, Games,
+  FPCanvas;
 
 type
 
@@ -26,6 +27,7 @@ type
   { TMainForm }
 
   TMainForm = class(TForm)
+    Bevel1: TBevel;
     Button3: TButton;
     Button4: TButton;
     FileName1View: TLabel;
@@ -54,6 +56,7 @@ type
     Splitter1: TSplitter;
     StaticText1: TStaticText;
     StaticText2: TStaticText;
+    StaticText3: TStaticText;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
@@ -247,6 +250,25 @@ begin
 end;
 
 procedure TMainForm.PaintBox1Paint(Sender: TObject);
+
+  procedure Paint(Item: TGameObject; PenColor, BrushColor: TColor;
+    BrushStyle: TFPBrushStyle=bsSolid);
+  var
+    OldPenColor, OldBrushColor: TColor;
+    OldBrushStyle: TFPBrushStyle;
+  begin
+    OldPenColor := PaintBox1.Canvas.Pen.Color;
+    PaintBox1.Canvas.Pen.Color := PenColor;
+    OldBrushColor := PaintBox1.Canvas.Brush.Color;
+    PaintBox1.Canvas.Brush.Color := BrushColor;
+    OldBrushStyle := PaintBox1.Canvas.Brush.Style;
+    PaintBox1.Canvas.Brush.Style := BrushStyle;
+    Ellipse(PaintBox1, Item);
+    PaintBox1.Canvas.Pen.Color := OldPenColor;
+    PaintBox1.Canvas.Brush.Color := OldBrushColor;
+    PaintBox1.Canvas.Brush.Style := OldBrushStyle;
+  end;
+
 var
   Item: TGameObject;
 begin
@@ -258,8 +280,10 @@ begin
     exit;
   end;
 
-  PaintBox1.Canvas.Pen.Color:=clBlack;
-  Ellipse(PaintBox1, Game);
+  Paint(Game, clBlack, clDefault);
+
+  for Pointer(Item) in Game.HEs do
+    Paint(Item, clRed, clRed, bsCross);
 
   PaintBox1.Canvas.Pen.Color:=clPurple;
   Ellipse(PaintBox1, Game.Player1);
@@ -270,6 +294,13 @@ begin
   Ellipse(PaintBox1, Game.Player2);
   for Pointer(Item) in Game.Player2.Buttons do
     Ellipse(PaintBox1, Item);
+
+  for Pointer(Item) in Game.SGs do
+    Paint(Item, clBlue, clWhite, bsDiagCross);
+
+  for Pointer(Item) in Game.HEs do
+    if Item.T = 0 then
+    Paint(Item, clRed, clRed);
 
   StaticText1.Caption := Game.Player1.GetSummaryText;
   StaticText2.Caption := Game.Player2.GetSummaryText;
