@@ -5,3 +5,7 @@ RoundShooter
 RoundShooter.exe
 *.bak
 *.zip
+*.lps
+*.res
+*.lpi
+
