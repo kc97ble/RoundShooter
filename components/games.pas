@@ -40,6 +40,7 @@ type
     Game: TGame;
     Opponent: TPlayer;
     HP, C1, C2, C3: Integer;
+    OnRadio: TGetStrProc;
     procedure Init;
     function Response(Request: String): String;
   private
@@ -111,6 +112,7 @@ begin
   Player2.OX += 0.8;
   HEs.Clear;
   SGs.Clear;
+  Winner:=0;
 end;
 
 procedure TGame.NextFrame;

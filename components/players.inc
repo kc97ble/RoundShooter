@@ -41,6 +41,8 @@ begin
     'GET HE': exit(ResponseGetHE);
     'GET SG': exit(ResponseGetSG);
   end;
+  if Assigned(OnRadio) then
+    OnRadio('Unhandled request: '+Request);
 end;
 
 function TPlayer.ResponseShoot(a1, a2: String): String;
@@ -70,6 +72,8 @@ begin
   begin
     Game.HEs.Add(TGameObject.Create(Target, GamePoint(0, 0), R2, TH2));
     C2 := CH2;
+    if Assigned(OnRadio) then
+      OnRadio('Fire in the hole!');
     exit(Format('%d %d %d', [Game.FrameNumber, 0, C2]));
   end
   else
@@ -84,6 +88,8 @@ begin
   begin
     Game.SGs.Add(TGameObject.Create(Target, GamePoint(0, 0), R3, TH3));
     C3 := CH3;
+    if Assigned(OnRadio) then
+      OnRadio('Fire in the hole!');
     exit(Format('%d %d %d', [Game.FrameNumber, 0, C3]));
   end
   else
@@ -119,11 +125,28 @@ begin
 end;
 
 function TPlayer.ResponseGetButtons: String;
+
+  function Hidden(Item: TGameObject): Boolean;
+  var
+    Jtem: TGameObject;
+  begin
+    for Pointer(Jtem) in Game.SGs do
+      if abs(Jtem.O - Item.O) <= Jtem.R + 1e-9 then
+      exit(True);
+    exit(False);
+  end;
+
 var
   Button: TGameObject;
+  Count: Integer = 0;
 begin
-  Result := Format('%d %d', [Game.FrameNumber, Opponent.Buttons.Count]);
   for Pointer(Button) in Opponent.Buttons do
+    if not Hidden(Button) then
+      Count += 1;
+
+  Result := Format('%d %d', [Game.FrameNumber, Count]);
+  for Pointer(Button) in Opponent.Buttons do
+    if not Hidden(Button) then
     with Button do
     Result += LineEnding + Format('%.9f %.9f %.9f %.9f', [OX, OY, VX, VY]);
 end;

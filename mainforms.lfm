@@ -3,6 +3,7 @@ object MainForm: TMainForm
   Height = 480
   Top = 162
   Width = 640
+  AllowDropFiles = True
   Caption = 'RoundShooter'
   ChildSizing.TopBottomSpacing = 5
   ChildSizing.VerticalSpacing = 5
@@ -10,6 +11,7 @@ object MainForm: TMainForm
   ClientWidth = 640
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnDropFiles = FormDropFiles
   Position = poScreenCenter
   LCLVersion = '1.6.4.0'
   object PageControl1: TPageControl
@@ -43,29 +45,29 @@ object MainForm: TMainForm
           Left = 0
           Height = 34
           Top = 5
-          Width = 396
+          Width = 530
           Align = alClient
           TabOrder = 0
         end
         object Process1Btn1: TButton
-          Left = 396
+          Left = 530
           Height = 34
           Top = 5
-          Width = 117
+          Width = 50
           Align = alRight
           AutoSize = True
-          Caption = 'Start process 1'
+          Caption = 'Start'
           OnClick = Process1Btn1Click
           TabOrder = 1
         end
         object Process1Btn2: TButton
-          Left = 513
+          Left = 580
           Height = 34
           Top = 5
-          Width = 115
+          Width = 48
           Align = alRight
           AutoSize = True
-          Caption = 'Stop process 1'
+          Caption = 'Stop'
           OnClick = Process1Btn2Click
           TabOrder = 2
         end
@@ -86,29 +88,29 @@ object MainForm: TMainForm
           Left = 0
           Height = 34
           Top = 5
-          Width = 396
+          Width = 530
           Align = alClient
           TabOrder = 0
         end
         object Process2Btn1: TButton
-          Left = 396
+          Left = 530
           Height = 34
           Top = 5
-          Width = 117
+          Width = 50
           Align = alRight
           AutoSize = True
-          Caption = 'Start process 2'
+          Caption = 'Start'
           OnClick = Process2Btn1Click
           TabOrder = 1
         end
         object Process2Btn2: TButton
-          Left = 513
+          Left = 580
           Height = 34
           Top = 5
-          Width = 115
+          Width = 48
           Align = alRight
           AutoSize = True
-          Caption = 'Stop process 2'
+          Caption = 'Stop'
           OnClick = Process2Btn2Click
           TabOrder = 2
         end
@@ -148,21 +150,45 @@ object MainForm: TMainForm
           TabOrder = 1
         end
       end
-      object StaticText3: TStaticText
-        Left = 0
-        Height = 17
-        Top = 417
-        Width = 630
-        Align = alBottom
-        Caption = 'RoundShooter :: Author: Nguyen Tien Trung Kien :: 2017'
-        TabOrder = 3
-      end
       object Bevel1: TBevel
         Left = 0
         Height = 2
         Top = 410
         Width = 630
         Align = alBottom
+      end
+      object Label3: TLabel
+        Cursor = crHandPoint
+        Left = 0
+        Height = 17
+        Top = 388
+        Width = 630
+        Align = alBottom
+        Caption = 'Advanced options'
+        Font.Color = clBlue
+        ParentColor = False
+        ParentFont = False
+        OnClick = Label3Click
+      end
+      object StaticText3: TLabel
+        Left = 0
+        Height = 17
+        Top = 417
+        Width = 630
+        Align = alBottom
+        Caption = 'RoundShooter :: Author: Nguyen Tien Trung Kien :: 2017'
+        ParentColor = False
+      end
+      object Button1: TButton
+        Left = 0
+        Height = 33
+        Top = 238
+        Width = 630
+        Align = alTop
+        AutoSize = True
+        Caption = 'Start game'
+        OnClick = Button1Click
+        TabOrder = 3
       end
     end
     object TabSheet2: TTabSheet
@@ -191,7 +217,7 @@ object MainForm: TMainForm
         ClientHeight = 429
         ClientWidth = 187
         TabOrder = 0
-        object Label1: TLabel
+        object CanvasLabel1: TLabel
           Left = 0
           Height = 17
           Top = 5
@@ -200,7 +226,7 @@ object MainForm: TMainForm
           Caption = 'Player 1'
           ParentColor = False
         end
-        object StaticText1: TStaticText
+        object CanvasView1: TStaticText
           Left = 0
           Height = 19
           Top = 27
@@ -210,7 +236,7 @@ object MainForm: TMainForm
           ParentFont = False
           TabOrder = 0
         end
-        object Label2: TLabel
+        object CanvasLabel2: TLabel
           Left = 0
           Height = 17
           Top = 51
@@ -219,7 +245,7 @@ object MainForm: TMainForm
           Caption = 'Player 2'
           ParentColor = False
         end
-        object StaticText2: TStaticText
+        object CanvasView2: TStaticText
           Left = 0
           Height = 19
           Top = 73
@@ -228,6 +254,26 @@ object MainForm: TMainForm
           AutoSize = True
           ParentFont = False
           TabOrder = 1
+        end
+        object RadioLabel: TLabel
+          Left = 0
+          Height = 17
+          Top = 97
+          Width = 187
+          Align = alTop
+          Caption = 'Radio'
+          ParentColor = False
+        end
+        object RadioView: TListBox
+          Left = 0
+          Height = 305
+          Top = 119
+          Width = 187
+          Align = alClient
+          ItemHeight = 0
+          ScrollWidth = 185
+          TabOrder = 2
+          TopIndex = -1
         end
       end
       object Splitter1: TSplitter

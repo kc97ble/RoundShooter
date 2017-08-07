@@ -28,6 +28,7 @@ type
 
   TMainForm = class(TForm)
     Bevel1: TBevel;
+    Button1: TButton;
     Button3: TButton;
     Button4: TButton;
     FileName1View: TLabel;
@@ -35,10 +36,13 @@ type
     HP1View: TLabel;
     FileName2View: TLabel;
     GameGbox: TGroupBox;
-    Label1: TLabel;
-    Label2: TLabel;
+    CanvasLabel1: TLabel;
+    CanvasLabel2: TLabel;
+    Label3: TLabel;
+    RadioLabel: TLabel;
     ListBox1: TListBox;
     ListBox2: TListBox;
+    RadioView: TListBox;
     PaintBox1: TPaintBox;
     PairSplitter1: TPairSplitter;
     PairSplitterSide1: TPairSplitterSide;
@@ -54,17 +58,20 @@ type
     PageControl1: TPageControl;
     Process2Gbox: TGroupBox;
     Splitter1: TSplitter;
-    StaticText1: TStaticText;
-    StaticText2: TStaticText;
-    StaticText3: TStaticText;
+    CanvasView1: TStaticText;
+    CanvasView2: TStaticText;
+    StaticText3: TLabel;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
     Timer1: TTimer;
+    procedure Button1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
+    procedure Label3Click(Sender: TObject);
     procedure PaintBox1Paint(Sender: TObject);
     procedure Process1Btn1Click(Sender: TObject);
     procedure Process1Btn2Click(Sender: TObject);
@@ -76,7 +83,8 @@ type
     procedure DoBeforePlaying;
     procedure DoPlaying;
     procedure DoAfterPlaying;
-  public
+    procedure Player1Radio(const Message: String);
+    procedure Player2Radio(const Message: String);
     procedure FormIdle(Sender: TObject; var Done: Boolean);
   end;
 
@@ -175,14 +183,20 @@ begin
 
   ListBox1.Clear;
   ListBox2.Clear;
+  RadioView.Clear;
 
   FileName1View.Caption := ExtractFileName(Process1Edit.Text);
   FileName2View.Caption := ExtractFileName(Process2Edit.Text);
+
+  CanvasLabel1.Tag := 0;
+  CanvasLabel2.Tag := 0;
 
   Game.State := 2;
 end;
 
 procedure TMainForm.DoPlaying;
+var
+  i: Integer;
 begin
   Game.ApplyDamage;
 
@@ -190,20 +204,27 @@ begin
   HP1View.Caption:=IntToStr(Game.Player1.HP);
   HP2View.Caption:=IntToStr(Game.Player2.HP);
 
-  if Process1.OutputThread.CanReadLn then
-  if Process1.InputThread.CanWriteLn then
-  Process1.InputThread.WriteLn(Game.Player1.
-    Response(Process1.OutputThread.ReadLn));
+  if Process1.OutputThread.CanReadLn and Process1.InputThread.CanWriteLn then
+    Process1.InputThread.WriteLn(Game.Player1.Response(Process1.OutputThread.ReadLn))
+  else
+    CanvasLabel1.Tag := CanvasLabel1.Tag + 1;
 
-  if Process2.OutputThread.CanReadLn then
-  if Process2.InputThread.CanWriteLn then
-  Process2.InputThread.WriteLn(Game.Player2.
-    Response(Process2.OutputThread.ReadLn));
+  if Process2.OutputThread.CanReadLn and Process2.InputThread.CanWriteLn then
+    Process2.InputThread.WriteLn(Game.Player2.Response(Process2.OutputThread.ReadLn))
+  else
+    CanvasLabel2.Tag := CanvasLabel2.Tag + 1;
 
+  for i := 1 to 8 do
   if Process1.StderrThread.CanReadLn then
-    ListBox1.Items.Add(Process1.StderrThread.ReadLn);
+    ListBox1.Items.Add(Process1.StderrThread.ReadLn)
+  else
+    break;
+
+  for i := 1 to 8 do
   if Process2.StderrThread.CanReadLn then
-    ListBox2.Items.Add(Process2.StderrThread.ReadLn);
+    ListBox2.Items.Add(Process2.StderrThread.ReadLn)
+  else
+    break;
 
   Game.NextFrame;
 end;
@@ -222,11 +243,24 @@ begin
   end;
 end;
 
+procedure TMainForm.Player1Radio(const Message: String);
+begin
+  RadioView.Items.Add('Player 1: ' + Message);
+end;
+
+procedure TMainForm.Player2Radio(const Message: String);
+begin
+  RadioView.Items.Add('Player 2: ' + Message);
+end;
+
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  Application.AddOnIdleHandler(@FormIdle);
   Process1 := TPlayerProcess.Create;
   Process2 := TPlayerProcess.Create;
+
+  Application.AddOnIdleHandler(@FormIdle);
+  Game.Player1.OnRadio := @Player1Radio;
+  Game.Player2.OnRadio := @Player2Radio;
 end;
 
 procedure TMainForm.Button3Click(Sender: TObject);
@@ -234,6 +268,14 @@ begin
   if Game.State=0 then
     Game.State:=1;
   PageControl1.ActivePage := TabSheet2;
+end;
+
+procedure TMainForm.Button1Click(Sender: TObject);
+begin
+  case Game.State of
+    0: Button3.Click;
+    2: Button4.Click;
+  end;
 end;
 
 procedure TMainForm.Button4Click(Sender: TObject);
@@ -244,9 +286,40 @@ end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
+  Game.Player1.OnRadio := nil;
+  Game.Player2.OnRadio := nil;
   Application.RemoveOnIdleHandler(@FormIdle);
+
   FreeAndNil(Process1);
   FreeAndNil(Process2);
+end;
+
+procedure TMainForm.FormDropFiles(Sender: TObject;
+  const FileNames: array of String);
+begin
+  case Length(FileNames) of
+    0: exit;
+    1: begin
+      case QuestionDlg('1 file dropped', 'What do you want with this file?',
+        mtCustom, [mrYes, 'Use as process 1', mrNo, 'Use as process 2',
+        mrCancel, 'Cancel'], 0)
+      of
+        mrYes: Process1Edit.Text := FileNames[0];
+        mrNo: Process2Edit.Text := FileNames[0];
+      end;
+    end;
+    2: begin
+      Process1Edit.Text := FileNames[0];
+      Process2Edit.Text := FileNames[1];
+    end;
+  otherwise
+    ShowMessage('Accept one or two files only');
+  end;
+end;
+
+procedure TMainForm.Label3Click(Sender: TObject);
+begin
+  Label3.Tag := Label3.Tag xor 1;
 end;
 
 procedure TMainForm.PaintBox1Paint(Sender: TObject);
@@ -275,8 +348,8 @@ begin
   PaintBox1.Canvas.Clear;
   if Game.State <> 2 then
   begin
-    StaticText1.Caption:='';
-    StaticText2.Caption:='';
+    CanvasView1.Caption:='';
+    CanvasView2.Caption:='';
     exit;
   end;
 
@@ -302,8 +375,8 @@ begin
     if Item.T = 0 then
     Paint(Item, clRed, clRed);
 
-  StaticText1.Caption := Game.Player1.GetSummaryText;
-  StaticText2.Caption := Game.Player2.GetSummaryText;
+  CanvasView1.Caption := Game.Player1.GetSummaryText;
+  CanvasView2.Caption := Game.Player2.GetSummaryText;
 end;
 
 procedure TMainForm.FormIdle(Sender: TObject; var Done: Boolean);
@@ -319,8 +392,26 @@ begin
   t0 := IfThen(Game.State=2, 'Running', 'Not running');
   GameGbox.Caption := Format('Game: %s (%d)', [t0, Game.State]);
 
+  t0 := IfThen(Game.State=2, ' (Playing)', '');
+  Caption := 'RoundShooter' + t0;
+
   ListBox1.ItemIndex := ListBox1.Count-1;
   ListBox2.ItemIndex := ListBox2.Count-1;
+  RadioView.ItemIndex := RadioView.Count-1;
+
+  GameGbox.Visible := Label3.Tag=1;
+  Process1Btn1.Visible := Label3.Tag=1;
+  Process1Btn2.Visible := Label3.Tag=1;
+  Process2Btn1.Visible := Label3.Tag=1;
+  Process2Btn2.Visible := Label3.Tag=1;
+  Button1.Visible := Label3.Tag=0;
+  Button1.Enabled := not odd(Game.State);
+  Button1.Caption := IfThen(Game.State < 2, 'Start game', 'Stop game');
+
+  CanvasLabel1.Caption := 'Player 1' + IfThen(CanvasLabel1.Tag = 0, '',
+    Format(' (%d frame(s) wasted)', [CanvasLabel1.Tag]));
+  CanvasLabel2.Caption := 'Player 2' + IfThen(CanvasLabel2.Tag = 0, '',
+    Format(' (%d frame(s) wasted)', [CanvasLabel2.Tag]));
 end;
 
 end.
